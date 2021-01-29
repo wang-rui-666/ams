@@ -1,0 +1,7 @@
+dependencies {
+    implementation group: 'com.alibaba', name: 'fastjson', version: rootProject.ext.fastjsonVersion
+    compile group: 'mysql', name: 'mysql-connector-java', version: rootProject.ext.mysqlVersion
+    implementation group: 'com.alibaba', name: 'druid', version: rootProject.ext.druidVersion
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-jdbc', version: rootProject.ext.springBootVersion
+    compile project(':ams-model')
+}

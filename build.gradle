@@ -1,0 +1,64 @@
+plugins {
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'org.springframework.boot' version '2.4.2'
+}
+
+ext {
+	group = 'com.wamrui'
+	version = '0.0.1-SNAPSHOT'
+	javaVersion = 15
+	junitVersion = '4.12'
+	nettyVersion = '4.1.58.Final'
+	springBootVersion = '2.4.2'
+	springVersion = '5.3.3'
+	fastjsonVersion = '1.2.75'
+	lombokVersion = '1.18.16'
+	druidVersion = '1.2.4'
+	mysqlVersion = '8.0.23'
+	servletApiVersion = '';
+}
+
+allprojects {
+	apply plugin : 'java'
+	group rootProject.ext.group
+	version rootProject.ext.version
+	sourceCompatibility = rootProject.ext.javaVersion
+	repositories {
+		mavenCentral()
+	}
+	dependencies{
+		compileOnly group: 'org.projectlombok', name: 'lombok', version: rootProject.ext.lombokVersion
+		annotationProcessor group: 'org.projectlombok', name: 'lombok', version: rootProject.ext.lombokVersion
+		implementation group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: rootProject.ext.springBootVersion
+	}
+	configurations {
+		all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+
+
+dependencies {
+	compile project(':ams-utils')
+	compile project(':ams-netty')
+	compile project(':ams-controller')
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+
+subprojects{
+	dependencies {
+		testCompile group:'junit',name: 'junit',version:rootProject.ext.junitVersion
+	}
+}
+test {
+	useJUnitPlatform()
+}

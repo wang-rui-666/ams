@@ -1,0 +1,5 @@
+dependencies {
+    compile project(':ams-service')
+    implementation group: 'com.alibaba', name: 'fastjson', version: rootProject.ext.fastjsonVersion
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: rootProject.ext.springBootVersion
+}

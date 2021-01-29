@@ -1,0 +1,8 @@
+rootProject.name = 'ams'
+include 'ams-utils'
+include 'ams-netty'
+include 'ams-controller'
+include 'ams-model'
+include 'ams-dao'
+include 'ams-service'
+

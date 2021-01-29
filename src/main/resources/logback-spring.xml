@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="warn" monitorInterval="30">
+<!--    <include resource="org/springframework/boot/logging/logback/base.xml"/>-->
+    <properties>
+        <property name="MAX_HISTORY" value="30"/>
+        <property name="MAX_FILE_SIZE_PER_LOG" value="100 MB"/>
+        <property name="LOG_PATH">${sys:user.home}/logs/</property>
+        <Property name="PID">????</Property>
+        <Property name="LOG_EXCEPTION_CONVERSION_WORD">%xwEx</Property>
+        <Property name="LOG_LEVEL_PATTERN">%5p</Property>
+        <Property name="LOG_DATE_FORMAT_PATTERN">yyyy-MM-dd HH:mm:ss.SSS</Property>
+        <Property name="CONSOLE_LOG_PATTERN">%clr{%d{${LOG_DATE_FORMAT_PATTERN}}}{faint} %clr{${LOG_LEVEL_PATTERN}} %clr{${sys:PID}}{magenta} %clr{---}{faint} %clr{[%15.15t]}{faint} %clr{%-40.40c{1.}}{cyan} %clr{:}{faint} %m%n${sys:LOG_EXCEPTION_CONVERSION_WORD}</Property>
+        <Property name="FILE_LOG_PATTERN">%d{${LOG_DATE_FORMAT_PATTERN}} ${LOG_LEVEL_PATTERN} ${sys:PID} --- [%t] %-40.40c{1.} : %m%n${sys:LOG_EXCEPTION_CONVERSION_WORD}</Property>
+    </properties>
+    <appenders>
+        <Console name="Console" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${sys:CONSOLE_LOG_PATTERN}" />
+        </Console>
+        <RollingRandomAccessFile name="RollingFileInfo"
+                                 fileName="${sys:LOG_PATH}/info.log"
+                                 filePattern="${sys:LOG_PATH}/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log">
+            <!--<ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>-->
+            <PatternLayout pattern="${sys:FILE_LOG_PATTERN}"/>
+            <Policies>
+                <!-- 设置日志文件切分参数 -->
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="${MAX_FILE_SIZE_PER_LOG}"/>
+            </Policies>
+            <!--设置最大存档数-->
+            <DefaultRolloverStrategy max="${MAX_HISTORY}"/>
+        </RollingRandomAccessFile>
+
+        <RollingFile name="RollingFileError"
+                     fileName="${sys:LOG_PATH}/error.log"
+                     filePattern="${sys:LOG_PATH}/$${date:yyyy-MM}/error-%d{yyyy-MM-dd}-%i.log">
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout pattern="${sys:FILE_LOG_PATTERN}"/>
+            <Policies>
+                <!-- 设置日志文件切分参数 -->
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="${MAX_FILE_SIZE_PER_LOG}"/>
+            </Policies>
+            <!--设置最大存档数-->
+            <DefaultRolloverStrategy max="${MAX_HISTORY}"/>
+        </RollingFile>
+    </appenders>
+    <loggers>
+        <logger name="com.ams" level="TRACE" />
+        <logger name="org.springframework.boot.web.embedded.tomcat" level="INFO"/>
+        <!--druid数据源日志-->
+        <Logger name="druid.sql.Statement" level="WARN"/>
+        <Logger name="org.apache.tomcat.util.net.NioSelectorPool" level="WARN" />
+        <root level="INFO">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="RollingFileInfo"/>
+            <appender-ref ref="RollingFileError"/>
+        </root>
+    </loggers>
+</configuration> 

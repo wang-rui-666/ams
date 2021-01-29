@@ -1,0 +1,6 @@
+
+dependencies {
+    implementation group: 'io.netty', name: 'netty-all', version: rootProject.ext.nettyVersion
+    implementation group: 'org.springframework.boot', name: 'spring-boot', version: rootProject.ext.springBootVersion
+    implementation group: 'com.alibaba', name: 'fastjson', version: rootProject.ext.fastjsonVersion
+}
